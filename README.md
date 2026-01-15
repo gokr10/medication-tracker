@@ -1,4 +1,4 @@
-## flask-medication-tracker
+## medication-tracker
 
 ### Requirements
 - [Git](https://git-scm.com/install/)
