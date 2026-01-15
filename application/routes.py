@@ -24,16 +24,27 @@ def get_user(user_id, raises=True):
     return user
 
 
+@bp.route('/')
+def home_page():
+    # type: () -> str
+    return 'Welcome to Medication Tracker'
+
 
 @bp.route('/medications', methods=['POST'])
 def add_medication():
     # type: () -> Response
     """
-    Accept: user_id, medication_name, dosage, unit, frequency, start_date, instructions
+    Add Medication and UserMedication records. Returns the created medication
+    and the medication_id.
 
-    Create the medication record and its schedule
-
-    Return the created medication with ID
+    Expected fields in json data:
+        user_id
+        medication_name
+        dosage
+        unit
+        frequency
+        start_date
+        instructions (optional)
     """
     data = request.json
 
@@ -90,7 +101,7 @@ def log_medication_dosage(medication_id):
         user_id
         actual_time (optional)
         dosage (optional)
-        units (optional)
+        unit (optional)
         notes (optional)
     """
     data = request.json
@@ -197,14 +208,6 @@ def get_medication_logs(user_id):
     - date range - (start_date, end_date)
     - medication
     - skipped/late doses
-
-    Optional filter by specific medication
-
-    Pagination support
-
-    Return with both scheduled and actual times
-
-    Show which doses were taken, skipped, or taken late
     """
     # Validate the user exists
     get_user(user_id)

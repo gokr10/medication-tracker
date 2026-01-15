@@ -15,6 +15,11 @@ TODO:
 - more parametrized arg inputs for edge cases
 """
 
+# FIXME: set to True or remove condition completely to run db cleanup after
+#  fixture use. Setting to False for now for visibility of test data since I
+#  didn't include seed data
+DO_DB_CLEANUP = False
+
 
 # Default parameters for creating test UserMedication instance. Note - need to
 # provide user_id and medication_id for fully valid parameters.
@@ -76,9 +81,8 @@ def user(app):
 
     yield user
 
-    # FIXME: uncomment to clean up db, but leaving for now for visibility if
-    #  run tests since I didn't include seed data
-    # db.session.delete(user)
+    if DO_DB_CLEANUP:
+        db.session.delete(user)
 
 
 @pytest.fixture()
@@ -95,10 +99,9 @@ def medications(app, user):
 
     yield medication_foo, medication_bar
 
-    # FIXME: uncomment to clean up db, but leaving for now for visibility if
-    #  run tests since I didn't include seed data
-    # db.session.delete(medication_foo)
-    # db.session.delete(medication_bar)
+    if DO_DB_CLEANUP:
+        db.session.delete(medication_foo)
+        db.session.delete(medication_bar)
 
 
 @pytest.fixture()
@@ -120,10 +123,9 @@ def user_medications(app, user, medications):
 
     yield user_medication_foo, user_medication_bar
 
-    # FIXME: uncomment to clean up db, but leaving for now for visibility if
-    #  run tests since I didn't include seed data
-    # db.session.delete(user_medication_foo)
-    # db.session.delete(user_medication_bar)
+    if DO_DB_CLEANUP:
+        db.session.delete(user_medication_foo)
+        db.session.delete(user_medication_bar)
 
 
 @pytest.fixture()
@@ -152,10 +154,9 @@ def user_logs(app, user, medications, user_medications):
 
     yield user_log1, user_log2
 
-    # FIXME: uncomment to clean up db, but leaving for now for visibility if
-    #  run tests since I didn't include seed data
-    # db.session.delete(user_log1)
-    # db.session.delete(user_log2)
+    if DO_DB_CLEANUP:
+        db.session.delete(user_log1)
+        db.session.delete(user_log2)
 
 
 # Tests ------

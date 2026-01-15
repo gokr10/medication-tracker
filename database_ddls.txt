@@ -1,0 +1,39 @@
+CREATE TABLE medications (
+	medication_id SERIAL NOT NULL, 
+	medication_name VARCHAR NOT NULL, 
+	active BOOLEAN NOT NULL, 
+	PRIMARY KEY (medication_id), 
+	UNIQUE (medication_name)
+)
+CREATE TABLE users (
+	user_id SERIAL NOT NULL, 
+	first_name VARCHAR NOT NULL, 
+	last_name VARCHAR NOT NULL, 
+	PRIMARY KEY (user_id)
+)
+CREATE TABLE user_logs (
+	user_log_id SERIAL NOT NULL, 
+	user_id INTEGER NOT NULL, 
+	user_medication_id INTEGER NOT NULL, 
+	expected_time TIMESTAMP WITHOUT TIME ZONE NOT NULL, 
+	actual_time TIMESTAMP WITHOUT TIME ZONE NOT NULL, 
+	dosage INTEGER NOT NULL, 
+	unit VARCHAR NOT NULL, 
+	notes TEXT, 
+	PRIMARY KEY (user_log_id), 
+	FOREIGN KEY(user_id) REFERENCES users (user_id), 
+	FOREIGN KEY(user_medication_id) REFERENCES user_medications (user_medication_id)
+)
+CREATE TABLE user_medications (
+	user_medication_id SERIAL NOT NULL, 
+	user_id INTEGER NOT NULL, 
+	medication_id INTEGER NOT NULL, 
+	dosage INTEGER NOT NULL, 
+	unit VARCHAR NOT NULL, 
+	frequency INTEGER NOT NULL, 
+	instructions VARCHAR, 
+	date DATE DEFAULT now() NOT NULL, 
+	PRIMARY KEY (user_medication_id), 
+	FOREIGN KEY(user_id) REFERENCES users (user_id), 
+	FOREIGN KEY(medication_id) REFERENCES medications (medication_id)
+)
